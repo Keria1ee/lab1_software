@@ -1,7 +1,6 @@
 package com.src;
 
-import com.mxgraph.layout.mxFastOrganicLayout;
-import com.mxgraph.model.mxGraphModel;
+import com.mxgraph.layout.hierarchical.mxHierarchicalLayout;
 import com.mxgraph.swing.mxGraphComponent;
 import com.mxgraph.view.mxGraph;
 
@@ -60,21 +59,13 @@ class Graph {
         mxGraph graph = new mxGraph();
         Object parent = graph.getDefaultParent();
         graph.getModel().beginUpdate();
-        Map<String, Object> vertexMap = new HashMap<>(); // Map to store vertices
-//        int nodeCount = nodes.size();
-//        int rows = (int) Math.sqrt(nodeCount); // Calculate the number of rows in the grid
-//        int cols = nodeCount / rows; // Calculate the number of columns in the grid
-//        int i = 0;
+        Map<String, Object> vertexMap = new HashMap<>();
         try {
-            for (Node node : nodes.values()) { // Add nodes, parent, id, value, x, y, width, height
-                //parent means the parent cell in the model
-//                int x = (i % cols) * 800 / cols; // Calculate the x position of the node
-//                int y = (i / cols) * 600 / rows; // Calculate the y position of the node
-                Object vertex = graph.insertVertex(parent, null, node.name, 20, 20, 80, 30);
+            for (Node node : nodes.values()) {
+                Object vertex = graph.insertVertex(parent, null, node.name, 35, 35, 70, 70);
                 vertexMap.put(node.name, vertex);
-//                i++;
             }
-            for (Node node : nodes.values()) { // Add edges
+            for (Node node : nodes.values()) {
                 for (Map.Entry<String, Integer> edge : node.edges.entrySet()) {
                     String[] src_dest = edge.getKey().split("-");
                     Object v1 = vertexMap.get(src_dest[0]);
@@ -85,19 +76,16 @@ class Graph {
         } finally {
             graph.getModel().endUpdate();
         }
-        // layout
-        mxFastOrganicLayout layout = new mxFastOrganicLayout(graph);
-        layout.setForceConstant(100);
-        layout.execute(graph.getDefaultParent());
 
-        mxGraphComponent graphComponent = new mxGraphComponent(graph);//Create a new component for the graph
+        // layout
+        mxHierarchicalLayout layout = new mxHierarchicalLayout(graph);
+        layout.execute(graph.getDefaultParent());
+        mxGraphComponent graphComponent = new mxGraphComponent(graph);
         JFrame frame = new JFrame();
         frame.getContentPane().add(graphComponent, BorderLayout.CENTER);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(800, 600);
+        frame.setSize(800, 1000);
         frame.setVisible(true);
-
-
 
     }
 
