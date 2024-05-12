@@ -35,4 +35,16 @@
             </plugin>
         </plugins>
     </build>
+    <properties>
+
+        <!-- 设置Maven全局变量，使用JDK版本，默认为1.5 -->
+        <!-- 源文件（编译时）使用的jdk版本 -->
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <!-- 目标字节码文件使用的jdk版本 -->
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+
+        <!-- 自定义全局变量(多用于版本号的定义), 使用方法${lombok.version} -->
+        <lombok.version>22.0.1</lombok.version>
+        <java.version>17</java.version>
+    </properties>
 </project>
