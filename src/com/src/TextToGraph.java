@@ -37,6 +37,11 @@ public class TextToGraph {
 
     }
 
+    /***
+     * 从node1到node2的最短路径
+     * @param node1
+     * @param node2
+     */
     public void MinimumPath(String node1, String node2) {
         //如果graph未被初始化，内容为空
             if(graph.nodes.isEmpty()){
@@ -94,6 +99,26 @@ public class TextToGraph {
                 current = parent.get(current);
             }
         System.out.println("Minimum path between " + node1 + " and " + node2 + " is " + path);
+    }
+
+    /***
+     * 从node1到所有节点的最短路径,重载方法
+     * @param node1
+     */
+    public void MinimumPath(String node1){
+        if(graph.nodes.isEmpty()){
+            System.out.println("Graph is empty, please build graph first");
+            return;
+        }
+        if(!graph.nodes.containsKey(node1)){
+            System.out.println("Node1:"+node1+" not found in graph");
+            return;
+        }
+        for (String node2 : graph.nodes.keySet()) {
+            if (!node1.equals(node2)) {
+                MinimumPath(node1, node2);//复用MinimumPath(node1, node2)方法
+            }
+        }
     }
 
 }

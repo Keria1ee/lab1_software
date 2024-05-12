@@ -27,10 +27,19 @@ public class Main {
                     String filepath = cmd.getOptionValue("f");
                     TextToGraph textToGraph = new TextToGraph();
                     textToGraph.BuildGraph(filepath);
-                    String node1 = cmd.getOptionValue("m").split(",")[0];
-                    String node2 = cmd.getOptionValue("m").split(",")[1];
-                    System.out.println("--------------------------------------------");
-                    textToGraph.MinimumPath(node1,node2);
+                    String[] strings = cmd.getOptionValue("m").split(",");
+
+                    if (strings.length==2) {
+                        String node1 = strings[0];
+                        String node2 = strings[1];
+                        System.out.println("--------------------------------------------");
+                        textToGraph.MinimumPath(node1, node2);
+                    } else if (strings.length==1) {
+                        String node1 = strings[0];
+                        textToGraph.MinimumPath(node1);
+                    } else {
+                        System.out.println("Please input node(s) to find the minimum path");
+                    }
                     cmd = parser.parse(options, new String[0]);
                 } else if (cmd.hasOption("f")) {
                     System.out.println("Processing file: " + cmd.getOptionValue("f"));
