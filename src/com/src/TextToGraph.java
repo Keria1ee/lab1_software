@@ -1,9 +1,11 @@
+package com.src;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+
 
 public class TextToGraph {
     private Graph graph;
@@ -29,6 +31,7 @@ public class TextToGraph {
                 graph.AddEdge(word_1, word_2, 1);
             }
             graph.PrintGraph();
+            graph.DrawGraph();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
