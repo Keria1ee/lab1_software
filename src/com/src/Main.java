@@ -10,6 +10,7 @@ public class Main {
         options.addOption("v", "version", false, "Print version");
         options.addOption("f", "file", true, "File to process");
         options.addOption("m","minimum_path",true,"Minimum path between two nodes");
+        options.addOption("w","wander_graph",false,"Wander graph");
         CommandLineParser parser = new DefaultParser();
         CommandLine cmd = parser.parse(options, args);
         while(true) {
@@ -22,11 +23,8 @@ public class Main {
                     System.out.println("Main 1.0");
                     cmd = parser.parse(options, new String[0]);
 
-                } else if(cmd.hasOption("m")){
-                    System.out.println("Processing file: " + cmd.getOptionValue("f"));
-                    String filepath = cmd.getOptionValue("f");
-                    TextToGraph textToGraph = new TextToGraph();
-                    textToGraph.BuildGraph(filepath);
+                } else if(cmd.hasOption("m") && cmd.hasOption("f")){
+                    TextToGraph textToGraph = getTextGraphFromCmd(cmd);
                     String[] strings = cmd.getOptionValue("m").split(",");
 
                     if (strings.length==2) {
@@ -41,11 +39,13 @@ public class Main {
                         System.out.println("Please input node(s) to find the minimum path");
                     }
                     cmd = parser.parse(options, new String[0]);
+                } else if (cmd.hasOption("w") && cmd.hasOption("f")) {
+                    TextToGraph textToGraph = getTextGraphFromCmd(cmd);
+                    textToGraph.WanderGraph();
+                    cmd = parser.parse(options, new String[0]);
+
                 } else if (cmd.hasOption("f")) {
-                    System.out.println("Processing file: " + cmd.getOptionValue("f"));
-                    String filepath = cmd.getOptionValue("f");
-                    TextToGraph textToGraph = new TextToGraph();
-                    textToGraph.BuildGraph(filepath);
+                    getTextGraphFromCmd(cmd);
                     cmd = parser.parse(options, new String[0]);
                 }
                 else {
@@ -60,5 +60,13 @@ public class Main {
                 System.err.println("Parsing failed.  Reason: " + e.getMessage());
             }
         }
+    }
+
+    private static TextToGraph getTextGraphFromCmd(CommandLine cmd) {
+        System.out.println("Processing file: " + cmd.getOptionValue("f"));
+        String filepath = cmd.getOptionValue("f");
+        TextToGraph textToGraph = new TextToGraph();
+        textToGraph.BuildGraph(filepath);
+        return textToGraph;
     }
 }
