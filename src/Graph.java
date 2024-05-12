@@ -36,5 +36,13 @@ class Graph {
             nodes.get(src).edges.put(key, weight);
         }
     }
+    public void PrintGraph() {
+        for (Node node : nodes.values()) {
+            System.out.println("Node: " + node.name);
+            for (Map.Entry<String, Integer> edge : node.edges.entrySet()) {
+                System.out.println("Edge: " + edge.getKey() + " Weight: " + edge.getValue());
+            }
+        }
+    }
 }
 

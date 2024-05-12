@@ -20,6 +20,7 @@ public class TextToGraph {
                 builder.append(line).append(" ");
             }
             String[] words = builder.toString().replaceAll("[^a-zA-Z ]", "").toLowerCase().split("\\s+");
+            System.out.println(Arrays.toString(words));
             for (int i = 0; i < words.length -1; i++) {
                 String word_1 = words[i];
                 String word_2 = words[i+1];
@@ -27,6 +28,7 @@ public class TextToGraph {
                 graph.AddNode(word_2);
                 graph.AddEdge(word_1, word_2, 1);
             }
+            graph.PrintGraph();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
