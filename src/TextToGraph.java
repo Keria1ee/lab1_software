@@ -6,10 +6,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class TextToGraph {
-    private final Map<String, Integer> graph;
+    private Graph graph;
 
     public TextToGraph() {
-        graph = new HashMap<>();
+        graph = new Graph();
     }
     public void BuildGraph(String filepath){
         try {
@@ -23,6 +23,9 @@ public class TextToGraph {
             for (int i = 0; i < words.length -1; i++) {
                 String word_1 = words[i];
                 String word_2 = words[i+1];
+                graph.AddNode(word_1);
+                graph.AddNode(word_2);
+                graph.AddEdge(word_1, word_2, 1);
             }
         } catch (IOException e) {
             throw new RuntimeException(e);

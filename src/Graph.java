@@ -1,29 +1,14 @@
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
-class Edge {
-    String src, dest;
-    int weight;
-
-    public Edge(String src, String dest, int weight) {
-        this.src = src;
-        this.dest = dest;
-        this.weight = weight;
-    }
-}
-
 class Node{
     String name;
-    List<Edge> edges;
+    HashMap<String, Integer> edges;
 
     public Node(String name) {
         this.name = name;
-        this.edges = new ArrayList<>();
+        edges = new HashMap<>();
     }
 }
-
 class Graph {
     Map<String, Node> nodes;
 
@@ -44,14 +29,12 @@ class Graph {
         if (!nodes.containsKey(dest)) {
             AddNode(dest);
         }
-        nodes.get(src).edges.add(new Edge(src, dest, weight));
-    }
-
-    public List<Edge> GetEdges(String name) {
-        if (nodes.containsKey(name)) {
-            return nodes.get(name).edges;
+        String key = src + "-" + dest;
+        if (nodes.get(src).edges.containsKey(key)) {
+            nodes.get(src).edges.put(key, nodes.get(src).edges.get(key) + weight);
+        } else {
+            nodes.get(src).edges.put(key, weight);
         }
-        return null;
     }
 }
 
