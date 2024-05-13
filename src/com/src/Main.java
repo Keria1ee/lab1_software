@@ -2,6 +2,7 @@ package com.src;
 import org.apache.commons.cli.*;
 
 
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Main {
@@ -42,6 +43,11 @@ public class Main {
             System.out.println("6. Exit");
             System.out.println("Enter your choice:");
             Scanner scanner = new Scanner(System.in);
+            //边界处理
+            while (!scanner.hasNextInt()){
+                System.out.println("Invalid choice, please enter a number(choice 1-6):");
+                scanner.next();
+            }
             int choice = scanner.nextInt();
             switch (choice){
                 case 1:
@@ -67,15 +73,28 @@ public class Main {
                     System.out.println();
                     break;
                 case 4:
+                    scanner.nextLine();
                     System.out.println("Enter word1:");
-                    String node1 = scanner.next();
-                    System.out.println("Enter word2:");
-                    String node2 = scanner.next();
-                    if (textToGraph.MinimumPath(node1, node2) != null)
-                        System.out.println(textToGraph.MinimumPath(node1, node2));
+                    String node1 = scanner.nextLine();
+                    System.out.println("Enter word2(can be null to calc all shortest path to all nodes):");
+                    String node2 = scanner.nextLine();
+
+                    if (!Objects.equals(node2, "") && node2!=null &&textToGraph.calcShortestPath(node1, node2) != null) {
+                        System.out.println(textToGraph.calcShortestPath(node1, node2));
+                    } else if(Objects.equals(node2, "") || node2==null){
+                        String[] result1 = textToGraph.calcShortestPath(node1);
+                        if (result1 != null) {
+                            for (String s : result1) {
+                                System.out.println(s);
+                            }
+                        }
+                    }
+                    else {
+                        System.out.println("No path from " + node1 + " to " + node2);
+                    }
                     break;
                 case 5:
-                    System.out.println(textToGraph.WanderGraph());
+                    System.out.println(textToGraph.randomWalk());
                     System.out.println();
                     break;
                 case 6:

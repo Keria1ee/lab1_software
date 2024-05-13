@@ -45,7 +45,7 @@ public class TextToGraph {
     /***
      * 从node1到node2的最短路径
      */
-    public String MinimumPath(String node1, String node2) {
+    public String calcShortestPath(String node1, String node2) {
         //如果graph未被初始化，内容为空
             if(graph.nodes.isEmpty()){
                 System.out.println("Graph is empty, please build graph first");
@@ -107,20 +107,23 @@ public class TextToGraph {
     /***
      * 从node1到所有节点的最短路径,重载方法
      */
-    public void MinimumPath(String node1){
+    public String[] calcShortestPath(String node1){
         if(graph.nodes.isEmpty()){
             System.out.println("Graph is empty, please build graph first");
-            return;
+            return null;
         }
         if(!graph.nodes.containsKey(node1)){
             System.out.println("Node1:"+node1+" not found in graph");
-            return;
+            return null;
         }
+        String[] result = new String[graph.nodes.size()];
+        int count = 0;
         for (String node2 : graph.nodes.keySet()) {
             if (!node1.equals(node2)) {
-                MinimumPath(node1, node2);//复用MinimumPath(node1, node2)方法
+                result[count++] = calcShortestPath(node1, node2);
             }
         }
+        return result;
     }
 
     /***
@@ -133,7 +136,7 @@ public class TextToGraph {
      * 磁盘。
      * no parameter
      */
-    public String WanderGraph() {
+    public String randomWalk() {
         if (graph.nodes.isEmpty()) {
             System.out.println("Graph is empty, please build graph first");
             return null;
@@ -220,7 +223,13 @@ public class TextToGraph {
             builder.append(word_1).append(" ");
             String bridgeWords = queryBridgeWords(word_1, word_2);
             if (bridgeWords != null) {
-                builder.append(bridgeWords).append(" ");
+                if (bridgeWords.contains(",")) {
+                    //debug:多个桥接词，随机选择一个
+                    String[] bridgeWordsArray = bridgeWords.split(", ");
+                    builder.append(bridgeWordsArray[new Random().nextInt(bridgeWordsArray.length)]).append(" ");
+                } else {
+                    builder.append(bridgeWords).append(" ");
+                }
             }
         }
         builder.append(words[words.length - 1]);
