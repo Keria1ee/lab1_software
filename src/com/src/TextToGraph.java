@@ -1,11 +1,10 @@
 package com.src;
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.*;
-
+import java.util.List;
 
 
 public class TextToGraph {
@@ -23,6 +22,7 @@ public class TextToGraph {
                 builder.append(line).append(" ");
             }
             String[] words = builder.toString().replaceAll("[^a-zA-Z ]", "").toLowerCase().split("\\s+");
+            System.out.println("Words: " + Arrays.toString(words));
             for (int i = 0; i < words.length -1; i++) {
                 String word_1 = words[i];
                 String word_2 = words[i+1];
@@ -30,32 +30,34 @@ public class TextToGraph {
                 graph.AddNode(word_2);
                 graph.AddEdge(word_1, word_2, 1);
             }
-            graph.PrintGraph();
-            graph.DrawGraph();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
     }
 
+    public void DrawGraphics(){
+        graph.DrawGraph();
+    }
+
+
+
     /***
      * 从node1到node2的最短路径
-     * @param node1
-     * @param node2
      */
-    public void MinimumPath(String node1, String node2) {
+    public String MinimumPath(String node1, String node2) {
         //如果graph未被初始化，内容为空
             if(graph.nodes.isEmpty()){
                 System.out.println("Graph is empty, please build graph first");
-                return;
+                return null;
             }
             if(!graph.nodes.containsKey(node1)){
                 System.out.println("Node1:"+node1+" not found in graph");
-                return;
+                return null;
             }
             if(!graph.nodes.containsKey(node2)){
                 System.out.println("Node2:"+node2+" not found in graph");
-                return;
+                return null;
             }
 
             //迪杰斯特拉算法
@@ -90,7 +92,7 @@ public class TextToGraph {
 
             if (!distances.containsKey(node2) || distances.get(node2) == Integer.MAX_VALUE) {
                 System.out.println("No path found between " + node1 + " and " + node2);
-                return;
+                return null;
             }
 
             LinkedList<String> path = new LinkedList<>();
@@ -99,13 +101,11 @@ public class TextToGraph {
                 path.addFirst(current);
                 current = parent.get(current);
             }
-            //path组织为node->node->node形式
-            System.out.println("Minimum path between " + node1 + " and " + node2 + " is: " + String.join("->", path));
+            return "Minimum path between " + node1 + " and " + node2 + " is: " + String.join("->", path);
     }
 
     /***
      * 从node1到所有节点的最短路径,重载方法
-     * @param node1
      */
     public void MinimumPath(String node1){
         if(graph.nodes.isEmpty()){
@@ -133,10 +133,10 @@ public class TextToGraph {
      * 磁盘。
      * no parameter
      */
-    public void WanderGraph() {
+    public String WanderGraph() {
         if (graph.nodes.isEmpty()) {
             System.out.println("Graph is empty, please build graph first");
-            return;
+            return null;
         }
         Random random = new Random();
         List<String> nodes = new ArrayList<>();
@@ -152,7 +152,7 @@ public class TextToGraph {
                 break;
             }
             //出现第一条重复的边
-            if (edges.containsAll(neighbors)) {
+            if (new HashSet<>(edges).containsAll(neighbors)) {
                 break;
             }
             String next = neighbors.get(random.nextInt(neighbors.size()));
@@ -180,17 +180,7 @@ public class TextToGraph {
                 builder.append(" ");
             }
         }
-        String sentence = builder.toString();
-        try {
-            String filename = "wander.txt";
-            System.out.println("Writing to file: " + filename);
-            FileWriter writer = new FileWriter(filename);
-            System.out.println(sentence);
-            writer.write(sentence);
-            writer.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        return builder.toString();
     }
 
     String queryBridgeWords(String word1, String word2) {
