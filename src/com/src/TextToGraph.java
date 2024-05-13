@@ -99,7 +99,8 @@ public class TextToGraph {
                 path.addFirst(current);
                 current = parent.get(current);
             }
-        System.out.println("Minimum path between " + node1 + " and " + node2 + " is " + path);
+            //path组织为node->node->node形式
+            System.out.println("Minimum path between " + node1 + " and " + node2 + " is: " + String.join("->", path));
     }
 
     /***
