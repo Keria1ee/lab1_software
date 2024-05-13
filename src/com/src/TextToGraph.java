@@ -1,6 +1,7 @@
 package com.src;
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.*;
@@ -183,6 +184,17 @@ public class TextToGraph {
                 builder.append(" ");
             }
         }
+        //写文件
+        try {
+            String filename = "random_walk.txt";
+            System.out.println("Writing to file: " + filename);
+            FileWriter writer = new FileWriter(filename);
+            writer.write(builder.toString());
+            writer.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
         return builder.toString();
     }
 
