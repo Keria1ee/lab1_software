@@ -4,9 +4,8 @@ import com.mxgraph.layout.hierarchical.mxHierarchicalLayout;
 import com.mxgraph.swing.mxGraphComponent;
 import com.mxgraph.view.mxGraph;
 
-import java.util.ArrayList;
+
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import javax.swing.*;
 import java.awt.BorderLayout;
@@ -91,29 +90,6 @@ class Graph {
 
     }
 
-    String queryBridgeWords(String word1, String word2) {
-        if (!nodes.containsKey(word1)) {
-            System.out.println("Word1 not found");
-            return null;
-        }
-        if (!nodes.containsKey(word2)) {
-            System.out.println("Word2 not found");
-            return null;
-        }
-        List<String> bridgeWords = new ArrayList<>();
-        Node node1 = nodes.get(word1);
 
-        for (Map.Entry<String, Integer> edge : node1.edges.entrySet()) {
-            String[] src_dest = edge.getKey().split("-");
-            String bridge_word = src_dest[1];
-            if (nodes.get(bridge_word).edges.containsKey(bridge_word + "-" + word2)) {
-                bridgeWords.add(bridge_word);
-            }
-        }
-        if (!bridgeWords.isEmpty()){
-            return String.join(", ", bridgeWords);
-        }
-        return null;
-    }
 }
 
