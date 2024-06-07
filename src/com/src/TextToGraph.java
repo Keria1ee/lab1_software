@@ -3,9 +3,19 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.*;
+import java.util.PriorityQueue;
+import java.util.Random;
+import java.util.Scanner;
+import java.util.HashSet;
 import java.util.List;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.Comparator;
+import java.util.concurrent.ThreadLocalRandom;
 
 
 public class TextToGraph {
@@ -14,7 +24,7 @@ public class TextToGraph {
     public TextToGraph() {
         graph = new Graph();
     }
-    public void BuildGraph(String filepath){
+    public void buildGraph(String filepath){
         try {
             String line;
             BufferedReader reader = new BufferedReader(new FileReader(filepath));
@@ -37,8 +47,8 @@ public class TextToGraph {
 
     }
 
-    public void DrawGraphics(){
-        graph.DrawGraph();
+    public void drawGraphics(){
+        graph.drawGraph();
     }
 
 
@@ -169,7 +179,7 @@ public class TextToGraph {
                 System.out.println("Nodes: " + nodes);
                 System.out.println("Edges: " + edges);
                 System.out.println("Continue? (y/n)");
-                Scanner scanner = new Scanner(System.in);
+                Scanner scanner = new Scanner(System.in, StandardCharsets.UTF_8);
                 String input = scanner.nextLine();
                 if (!input.equals("y")) {
                     break;
@@ -227,7 +237,7 @@ public class TextToGraph {
     }
 
     String generateNewText(String inputText){
-        String[] words = inputText.replaceAll("[^a-zA-Z ]", "").toLowerCase().split("\\s+");
+        String[] words = inputText.replaceAll("[^a-zA-Z ]", " ").toLowerCase().split("\\s+");
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < words.length -1; i++) {
             String word_1 = words[i];
@@ -238,7 +248,7 @@ public class TextToGraph {
                 if (bridgeWords.contains(",")) {
                     //debug:多个桥接词，随机选择一个
                     String[] bridgeWordsArray = bridgeWords.split(", ");
-                    builder.append(bridgeWordsArray[new Random().nextInt(bridgeWordsArray.length)]).append(" ");
+                    builder.append(bridgeWordsArray[ThreadLocalRandom.current().nextInt(bridgeWordsArray.length)]).append(" ");
                 } else {
                     builder.append(bridgeWords).append(" ");
                 }

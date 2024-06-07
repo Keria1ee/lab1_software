@@ -7,7 +7,7 @@ import com.mxgraph.view.mxGraph;
 
 import java.util.HashMap;
 import java.util.Map;
-import javax.swing.*;
+import javax.swing.JFrame;
 import java.awt.BorderLayout;
 
 
@@ -48,7 +48,7 @@ class Graph {
             nodes.get(src).edges.put(key, weight);
         }
     }
-    public void DrawGraph() {
+    public void drawGraph() {
         mxGraph graph = new mxGraph();
         Object parent = graph.getDefaultParent();
         graph.getModel().beginUpdate();

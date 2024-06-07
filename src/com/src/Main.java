@@ -1,7 +1,13 @@
 package com.src;
-import org.apache.commons.cli.*;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
 
 
+import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -23,7 +29,7 @@ public class Main {
                 System.out.println("Processing file: " + cmd.getOptionValue("f"));
                 String filepath = cmd.getOptionValue("f");
                 TextToGraph textToGraph = new TextToGraph();
-                textToGraph.BuildGraph(filepath);
+                textToGraph.buildGraph(filepath);
                 Menu(textToGraph);
             } else
             {
@@ -33,6 +39,11 @@ public class Main {
             System.err.println("Parsing failed.  Reason: " + e.getMessage());
         }
     }
+    static String queryBridgeWords(TextToGraph textToGraph, String word1, String word2){
+        return textToGraph.queryBridgeWords(word1, word2);
+    }
+
+
     private static void Menu(TextToGraph textToGraph){
         while (true){
             System.out.println("1. Show Graph");
@@ -42,7 +53,7 @@ public class Main {
             System.out.println("5. Random Walk");
             System.out.println("6. Exit");
             System.out.println("Enter your choice:");
-            Scanner scanner = new Scanner(System.in);
+            Scanner scanner = new Scanner(System.in, StandardCharsets.UTF_8);
             //边界处理
             while (!scanner.hasNextInt()){
                 System.out.println("Invalid choice, please enter a number(choice 1-6):");
@@ -51,14 +62,14 @@ public class Main {
             int choice = scanner.nextInt();
             switch (choice){
                 case 1:
-                    textToGraph.DrawGraphics();
+                    textToGraph.drawGraphics();
                     break;
                 case 2:
                     System.out.println("Enter word1:");
                     String word1 = scanner.next();
                     System.out.println("Enter word2:");
                     String word2 = scanner.next();
-                    String result = textToGraph.queryBridgeWords(word1, word2);
+                    String result = queryBridgeWords(textToGraph,word1, word2);
                     if (result != null)
                         System.out.println("The bridge words from "+ word1 + " to "+ word2 + ":"+ result);
                     else
