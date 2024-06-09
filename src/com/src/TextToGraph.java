@@ -19,7 +19,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 
 public class TextToGraph {
-    private Graph graph;
+    Graph graph;
 
     public boolean hasNode(String name){
         return graph.hasNode(name);

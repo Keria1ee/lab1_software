@@ -8,8 +8,7 @@ import org.apache.commons.cli.ParseException;
 
 
 import java.nio.charset.StandardCharsets;
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -40,17 +39,31 @@ public class Main {
         }
     }
     static String queryBridgeWords(TextToGraph textToGraph, String word1, String word2){
-        if (!textToGraph.hasNode(word1)){
-            System.out.println("Word1: "+ word1 + " not found in graph");
-        }
-        if (!textToGraph.hasNode(word2)){
-            System.out.println("Word2: "+ word2 + " not found in graph");
-        }
-        if(textToGraph.hasNode(word1) && textToGraph.hasNode(word2)){
-            return textToGraph.queryBridgeWords(word1, word2);
-        }else {
+
+        Map<String, Node> nodes = textToGraph.graph.nodes;
+
+        if (!nodes.containsKey(word1)) {
+            System.out.println("Word1 not found");
             return null;
         }
+        if (!nodes.containsKey(word2)) {
+            System.out.println("Word2 not found");
+            return null;
+        }
+        List<String> bridgeWords = new ArrayList<>();
+        Node node1 = nodes.get(word1);
+
+        for (Map.Entry<String, Integer> edge : node1.edges.entrySet()) {
+            String[] src_dest = edge.getKey().split("-");
+            String bridge_word = src_dest[1];
+            if (nodes.get(bridge_word).edges.containsKey(bridge_word + "-" + word2)) {
+                bridgeWords.add(bridge_word);
+            }
+        }
+        if (!bridgeWords.isEmpty()){
+            return String.join(", ", bridgeWords);
+        }
+        return null;
     }
 
     static void createDirectedGraph(String filepath){
