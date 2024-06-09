@@ -34,6 +34,9 @@ class Graph {
         }
     }
 
+    public  boolean hasNode(String name){
+        return nodes.containsKey(name);
+    }
     public void AddEdge(String src, String dest, int weight) {
         if (!nodes.containsKey(src)) {
             AddNode(src);
