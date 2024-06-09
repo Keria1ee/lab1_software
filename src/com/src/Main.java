@@ -42,13 +42,15 @@ public class Main {
     static String queryBridgeWords(TextToGraph textToGraph, String word1, String word2){
         if (!textToGraph.hasNode(word1)){
             System.out.println("Word1: "+ word1 + " not found in graph");
-            return null;
         }
         if (!textToGraph.hasNode(word2)){
             System.out.println("Word2: "+ word2 + " not found in graph");
+        }
+        if(textToGraph.hasNode(word1) && textToGraph.hasNode(word2)){
+            return textToGraph.queryBridgeWords(word1, word2);
+        }else {
             return null;
         }
-        return textToGraph.queryBridgeWords(word1, word2);
     }
 
     static void createDirectedGraph(String filepath){
