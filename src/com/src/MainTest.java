@@ -39,6 +39,7 @@ class MainTest {
     @Test
     void testQueryBridgeWords6() {
         assertNull(textToGraph.queryBridgeWords("then", "dayxs"));
+        System.out.println(textToGraph.queryBridgeWords("then", "dayxs")+" returned");
     }
 
 }
