@@ -39,6 +39,8 @@ public class Main {
             System.err.println("Parsing failed.  Reason: " + e.getMessage());
         }
     }
+
+
     static String queryBridgeWords(TextToGraph textToGraph, String word1, String word2){
         if (!textToGraph.hasNode(word1)){
             System.out.println("Word1: "+ word1 + " not found in graph");
@@ -56,8 +58,20 @@ public class Main {
     static void createDirectedGraph(String filepath){
         TextToGraph textToGraph = new TextToGraph();
         textToGraph.buildGraph(filepath);
-
     }
+
+
+    static  String randomWalk(TextToGraph G){
+        return G.randomWalk();
+    }
+
+    static String calcShortestPath(TextToGraph G, String word1, String word2){
+            return G.calcShortestPath(word1, word2);
+    }
+
+
+
+
 
 
     private static void Menu(TextToGraph textToGraph){
