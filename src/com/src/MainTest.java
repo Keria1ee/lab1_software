@@ -46,8 +46,7 @@ class MainTest {
 
     @Test
     void testCalcShortestPath() {
-        assertNull(Main.calcShortestPath(textToGraph,"on","and"));
-        System.out.println("Shortest path is "+textToGraph.calcShortestPath("commanded", "servants"));
+        assertNull(Main.calcShortestPath(null,"on","and"));
     }
 
     @Test

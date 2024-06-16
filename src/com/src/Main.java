@@ -79,6 +79,10 @@ public class Main {
     }
 
     static String calcShortestPath(TextToGraph G, String word1, String word2){
+        if (G == null){
+            System.out.println("Graph is empty, please build graph first");
+            return null;
+        }
             return G.calcShortestPath(word1, word2);
     }
 
